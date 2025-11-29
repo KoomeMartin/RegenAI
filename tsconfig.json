@@ -14,10 +14,12 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "paths": { "@/*": ["./*"] }
+    "paths": { "@/*": ["./*"] },
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",
+    "types/**/*.d.ts",     // <-- IMPORTANT: Load custom NextAuth types
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
