@@ -2,6 +2,10 @@ import { NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import type { Session } from 'next-auth'
+
+// Import types to ensure NextAuth augmentations are loaded
+import '@/types/next-auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,7 +22,7 @@ function detectCrisis(text: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = (await getServerSession(authOptions)) as Session | null
     
     if (!session?.user) {
       return new Response('Unauthorized', { status: 401 })
