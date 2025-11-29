@@ -86,8 +86,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id
         // session.user.alias = token.alias
-        session.user.avatar = token.avatar
-        session.user.role = token.role
+        // session.user.avatar = token.avatar
+        // session.user.role = token.role
       }
       return session
     },
