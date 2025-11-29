@@ -11,7 +11,9 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -36,7 +38,7 @@ export async function PATCH(
     }
 
     // Check authorization
-    if (booking.clientId !== session.user.id && booking.therapistId !== session.user.id) {
+    if (booking.clientId !== userId && booking.therapistId !== userId) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

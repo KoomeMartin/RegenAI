@@ -8,13 +8,15 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const bookings = await prisma.therapyBooking.findMany({
       where: {
-        clientId: session.user.id,
+        clientId: userId,
       },
       include: {
         therapist: {
@@ -40,7 +42,9 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -67,7 +71,7 @@ export async function POST(request: NextRequest) {
     // Create booking
     const booking = await prisma.therapyBooking.create({
       data: {
-        clientId: session.user.id,
+        clientId: userId,
         therapistId,
         sessionType,
         scheduledAt: new Date(scheduledAt),
@@ -88,7 +92,7 @@ export async function POST(request: NextRequest) {
     // Create notification for booking confirmation
     await prisma.notification.create({
       data: {
-        userId: session.user.id,
+        userId: userId,
         type: 'booking_confirmed',
         title: 'Therapy Session Confirmed',
         message: `Your session with ${booking.therapist.alias} has been confirmed for ${new Date(scheduledAt).toLocaleString()}.`,

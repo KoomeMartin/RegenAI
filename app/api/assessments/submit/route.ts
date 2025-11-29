@@ -22,7 +22,9 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -65,7 +67,7 @@ export async function POST(request: NextRequest) {
     // Save response
     const response = await prisma.assessmentResponse.create({
       data: {
-        userId: session.user.id,
+        userId,
         assessmentId,
         answers,
         score,

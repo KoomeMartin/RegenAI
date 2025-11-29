@@ -7,11 +7,11 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    const userId = session.user.id
 
     // Fetch assessment scores over time
     const assessmentHistory = await prisma.assessmentResponse.findMany({

@@ -12,6 +12,8 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const userId = (session as any)?.user?.id
+
     // Check if user is a therapist
     if (session.user.role !== 'therapist') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -19,7 +21,7 @@ export async function GET() {
 
     const bookings = await prisma.therapyBooking.findMany({
       where: {
-        therapistId: session.user.id,
+        therapistId: userId,
       },
       include: {
         client: {

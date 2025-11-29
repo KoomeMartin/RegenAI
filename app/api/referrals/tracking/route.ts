@@ -8,13 +8,15 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const tracking = await prisma.referralTracking.findMany({
       where: {
-        userId: session.user.id,
+        userId,
       },
       include: {
         referral: true,
@@ -35,7 +37,9 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -50,7 +54,7 @@ export async function POST(request: NextRequest) {
     const existing = await prisma.referralTracking.findUnique({
       where: {
         userId_referralId: {
-          userId: session.user.id,
+          userId,
           referralId,
         },
       },
@@ -76,7 +80,7 @@ export async function POST(request: NextRequest) {
       // Create new tracking
       tracking = await prisma.referralTracking.create({
         data: {
-          userId: session.user.id,
+          userId,
           referralId,
           status: status || 'interested',
           notes,

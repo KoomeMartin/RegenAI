@@ -8,7 +8,9 @@ export async function POST(request: NextRequest) {
   try {
     const session = (await getServerSession(authOptions)) as Session | null
 
-    if (!session?.user) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -20,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     const journal = await prisma.journal.create({
       data: {
-        userId: session.user.id,
+        userId,
         title,
         content,
         mood,
@@ -38,7 +40,9 @@ export async function PUT(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -50,7 +54,7 @@ export async function PUT(request: NextRequest) {
 
     // Verify ownership
     const existing = await prisma.journal.findFirst({
-      where: { id, userId: session.user.id },
+      where: { id, userId },
     })
 
     if (!existing) {
@@ -77,7 +81,9 @@ export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user) {
+    const userId = (session as any)?.user?.id
+
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -90,7 +96,7 @@ export async function DELETE(request: NextRequest) {
 
     // Verify ownership
     const existing = await prisma.journal.findFirst({
-      where: { id, userId: session.user.id },
+      where: { id, userId },
     })
 
     if (!existing) {
