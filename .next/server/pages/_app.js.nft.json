@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e03334f487c5ebfc2cfa1d78515aeba15ab4462f2d35e0c4c30676736e389ca3
-size 517
+{"version":1,"files":["../../../node_modules/next/dist/pages/_app.js","../../../node_modules/react/cjs/react-jsx-runtime.development.js","../../../node_modules/react/cjs/react-jsx-runtime.production.min.js","../../../node_modules/react/cjs/react.development.js","../../../node_modules/react/cjs/react.production.min.js","../../../node_modules/react/index.js","../../../node_modules/react/jsx-runtime.js","../../../node_modules/react/package.json","../../../package.json","../../package.json","../webpack-runtime.js"]}

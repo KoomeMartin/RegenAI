@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bfdbd0b39eb2023759b956c9e0500c6754dcb39a907a14f147c4fe3d783892f4
-size 255
+{"version":1,"functions":{"/api/group-sessions/[id]/messages":{},"/api/ai-chat":{},"/ai-support":{},"/group-sessions/[id]/join":{},"/assessments":{},"/dashboard":{},"/group-sessions/[id]":{},"/group-sessions":{},"/profile":{},"/assessments/[id]/take":{}}}

@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:92fc58c855398d98fed8aed063bf00de17dd56ba5903b14ab78708a591b3c8d3
-size 968
+{
+  "polyfillFiles": [
+    "static/chunks/polyfills-42372ed130431b0a.js"
+  ],
+  "devFiles": [],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [
+    "static/xiXNdZyoyj03WoPoUijhQ/_buildManifest.js",
+    "static/xiXNdZyoyj03WoPoUijhQ/_ssgManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/webpack-7a8b3560ab020ae1.js",
+    "static/chunks/fd9d1056-6fba35c8e8f3c0fc.js",
+    "static/chunks/117-4bd7938db1d77e42.js",
+    "static/chunks/main-app-6143b5f4228bb15f.js"
+  ],
+  "pages": {
+    "/_app": [
+      "static/chunks/webpack-7a8b3560ab020ae1.js",
+      "static/chunks/framework-b370f160bb96059c.js",
+      "static/chunks/main-e15b0c8a04841c84.js",
+      "static/chunks/pages/_app-d10d8d78b353c309.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack-7a8b3560ab020ae1.js",
+      "static/chunks/framework-b370f160bb96059c.js",
+      "static/chunks/main-e15b0c8a04841c84.js",
+      "static/chunks/pages/_error-21d166e671f1855f.js"
+    ]
+  },
+  "ampFirstPages": []
+}

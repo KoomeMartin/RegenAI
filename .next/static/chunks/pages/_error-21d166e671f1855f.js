@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:391413461f26c036aebf8a79a5e47b0c1d9277b6f723857419ef306054bce176
-size 250
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[820],{81981:function(n,_,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/_error",function(){return u(18529)}])}},function(n){n.O(0,[888,774,671],function(){return n(n.s=81981)}),_N_E=n.O()}]);
