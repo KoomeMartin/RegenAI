@@ -5,7 +5,6 @@ import { prisma } from '@/lib/db'
 import type { Session } from 'next-auth'
 
 // Import types to ensure NextAuth augmentations are loaded
-import '@/types/next-auth'
 
 export const dynamic = 'force-dynamic'
 
