@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:524e0dd5f964aa4ca9f2d9a2288ebdeeb3338ba89f6e48199f8e4d5862a69979
-size 314
+import { AppNav } from '@/components/app-nav'
+
+export default function ReferralsLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-warmBeige via-lightTeal/10 to-softBlue/10">
+      <AppNav />
+      <main>{children}</main>
+    </div>
+  )
+}

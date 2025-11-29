@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7f9f20911cf0654381a98bd74f271ec2c546873ab5547310397fcc32c95302a7
-size 312
+import { AppNav } from '@/components/app-nav'
+
+export default function ProfileLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-warmBeige via-lightTeal/10 to-softBlue/10">
+      <AppNav />
+      <main>{children}</main>
+    </div>
+  )
+}

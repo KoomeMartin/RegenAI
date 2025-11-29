@@ -1,3 +1,349 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c1a68c3dbea9ccceb2c5064912a5cdb54e7aa0425d5b0991be7c080868699e4b
-size 15306
+// Sample demo data used when running in demo mode (USE_PREDEFINED_USERS=true)
+export const demoUsers = [
+  {
+    id: 'demo-1',
+    email: 'demo@mentalhealth.com',
+    alias: 'Demo User',
+    avatar: 'avatar-1',
+    role: 'user',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
+  },
+  {
+    id: 'demo-2',
+    email: 'therapist@mentalhealth.com',
+    alias: 'Dr. Sarah Chen',
+    avatar: 'avatar-2',
+    role: 'therapist',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60).toISOString(),
+  },
+]
+
+export const demoAssessments = [
+  { id: 'phq9', title: 'PHQ-9', description: 'Patient Health Questionnaire - Depression screener', type: 'PHQ9', createdAt: new Date().toISOString() },
+  { id: 'gad7', title: 'GAD-7', description: 'Generalized Anxiety Disorder - Anxiety screener', type: 'GAD7', createdAt: new Date().toISOString() },
+  { id: 'psqi', title: 'PSQI', description: 'Pittsburgh Sleep Quality Index', type: 'PSQI', createdAt: new Date().toISOString() },
+]
+
+export const demoAssessmentResponses = [
+  { id: 'resp-1', userId: 'demo-1', assessmentId: 'phq9', score: 8, severity: 'mild', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(), assessment: demoAssessments[0] },
+  { id: 'resp-2', userId: 'demo-1', assessmentId: 'gad7', score: 5, severity: 'minimal', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(), assessment: demoAssessments[1] },
+  { id: 'resp-3', userId: 'demo-2', assessmentId: 'phq9', score: 12, severity: 'moderate', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), assessment: demoAssessments[0] },
+  { id: 'resp-4', userId: 'demo-1', assessmentId: 'gad7', score: 7, severity: 'mild', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(), assessment: demoAssessments[1] },
+  { id: 'resp-5', userId: 'demo-1', assessmentId: 'psqi', score: 8, severity: 'poor', createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), assessment: demoAssessments[2] },
+]
+
+export const demoGroupSessions = [
+  { id: 'session-1', title: 'Coping with Anxiety', description: 'Learn practical techniques to manage anxiety in daily life', topic: 'anxiety', scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(), duration: 60, maxCapacity: 10, status: 'scheduled', _count: { participants: 3 } },
+  { id: 'session-2', title: 'Managing Depression', description: 'Support group for those dealing with depression', topic: 'depression', scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 48).toISOString(), duration: 60, maxCapacity: 8, status: 'scheduled', _count: { participants: 2 } },
+  { id: 'session-3', title: 'Sleep & Wellness', description: 'Improve your sleep quality and overall wellness', topic: 'sleep', scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 72).toISOString(), duration: 45, maxCapacity: 12, status: 'scheduled', _count: { participants: 5 } },
+  { id: 'session-4', title: 'Stress Management Techniques', description: 'Discover effective strategies to reduce daily stress', topic: 'stress', scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 96).toISOString(), duration: 60, maxCapacity: 10, status: 'scheduled', _count: { participants: 4 } },
+  { id: 'session-5', title: 'Building Healthy Relationships', description: 'Strengthen your connections and communication skills', topic: 'relationships', scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 120).toISOString(), duration: 75, maxCapacity: 8, status: 'scheduled', _count: { participants: 6 } },
+]
+
+export const demoGroupParticipants = [
+  { id: 'gpart-1', userId: 'demo-1', groupSessionId: 'session-1', groupSession: demoGroupSessions[0], joinedAt: new Date().toISOString() },
+  { id: 'gpart-2', userId: 'demo-1', groupSessionId: 'session-3', groupSession: demoGroupSessions[2], joinedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString() },
+]
+
+export const demoGroupMessages = [
+  { id: 'gm-1', groupSessionId: 'session-1', userId: 'demo-1', content: 'Hi everyone, happy to be here. Looking forward to learning about anxiety management.', isFlagged: false, createdAt: new Date().toISOString(), user: demoUsers[0] },
+  { id: 'gm-2', groupSessionId: 'session-1', userId: 'demo-2', content: 'Welcome! We\'re glad you\'re here. Let\'s start by going around the room.', isFlagged: false, createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(), user: demoUsers[1] },
+]
+
+export const demoTherapists = [
+  { 
+    id: 'ther-1', 
+    userId: 'demo-2', 
+    name: 'Dr. Sarah Chen',
+    specialties: JSON.stringify(['anxiety', 'depression', 'stress-management']),
+    avatar: 'avatar-2',
+    bio: 'Licensed therapist with 10+ years experience in cognitive behavioral therapy',
+    email: 'therapist@mentalhealth.com',
+    phone: '+1 (555) 123-4567',
+    available: true,
+  },
+]
+
+export const demoTherapistProfiles = [
+  {
+    id: 'ther-profile-1',
+    userId: 'demo-2',
+    bio: 'Licensed Clinical Psychologist with 12+ years of experience in cognitive behavioral therapy and trauma-informed care. I specialize in helping individuals manage anxiety, depression, and life transitions.',
+    specialties: ['anxiety', 'depression', 'stress-management', 'trauma', 'life-transitions'],
+    languages: ['English', 'Mandarin', 'Spanish'],
+    qualifications: 'Ph.D. Clinical Psychology, Licensed Professional Counselor',
+    verified: true,
+    hourlyRate: 80,
+    availability: { monday: ['09:00', '17:00'], tuesday: ['09:00', '17:00'], wednesday: ['09:00', '17:00'] },
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 180).toISOString(),
+    user: demoUsers[1],
+  },
+  {
+    id: 'ther-profile-2',
+    userId: 'demo-1-ther',
+    bio: 'Licensed Marriage and Family Therapist specializing in relationship issues, communication skills, and family dynamics. I use systemic and solution-focused approaches.',
+    specialties: ['relationships', 'communication', 'family-issues', 'couples-therapy'],
+    languages: ['English', 'French'],
+    qualifications: 'M.A. Marriage and Family Therapy, Licensed Therapist',
+    verified: true,
+    hourlyRate: 75,
+    availability: { monday: ['10:00', '18:00'], tuesday: ['10:00', '18:00'], friday: ['14:00', '20:00'] },
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 120).toISOString(),
+    user: { id: 'demo-1-ther', email: 'therapist2@mentalhealth.com', alias: 'James Rodriguez', avatar: 'avatar-3' },
+  },
+  {
+    id: 'ther-profile-3',
+    userId: 'demo-1-ther-2',
+    bio: 'Art and Expressive Therapist trained in psychodynamic therapy. I help clients explore emotions through creative expression and gain deeper self-understanding.',
+    specialties: ['creative-expression', 'self-discovery', 'emotional-processing', 'mindfulness'],
+    languages: ['English', 'Portuguese'],
+    qualifications: 'M.A. Art Therapy, Licensed Professional Counselor',
+    verified: true,
+    hourlyRate: 70,
+    availability: { wednesday: ['11:00', '19:00'], thursday: ['11:00', '19:00'], friday: ['09:00', '17:00'] },
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 90).toISOString(),
+    user: { id: 'demo-1-ther-2', email: 'therapist3@mentalhealth.com', alias: 'Maria Santos', avatar: 'avatar-4' },
+  },
+]
+
+export const demoTherapyBookings = [
+  {
+    id: 'booking-1',
+    clientId: 'demo-1',
+    therapistId: 'demo-2',
+    sessionType: 'video',
+    scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 48).toISOString(),
+    duration: 50,
+    status: 'scheduled',
+    clientNotes: 'Would like to discuss anxiety management strategies',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
+    therapist: demoUsers[1],
+  },
+  {
+    id: 'booking-2',
+    clientId: 'demo-1',
+    therapistId: 'demo-1-ther',
+    sessionType: 'chat',
+    scheduledAt: new Date(Date.now() + 1000 * 60 * 60 * 120).toISOString(),
+    duration: 50,
+    status: 'scheduled',
+    clientNotes: 'Looking to improve communication with partner',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
+    therapist: { id: 'demo-1-ther', email: 'therapist2@mentalhealth.com', alias: 'James Rodriguez', avatar: 'avatar-3' },
+  },
+  {
+    id: 'booking-3',
+    clientId: 'demo-1',
+    therapistId: 'demo-2',
+    sessionType: 'video',
+    scheduledAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
+    duration: 50,
+    status: 'completed',
+    clientNotes: 'Follow-up on previous session',
+    rating: 5,
+    feedback: 'Dr. Chen was incredibly helpful and supportive. Great session!',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15).toISOString(),
+    therapist: demoUsers[1],
+  },
+]
+
+export const demoNotifications = [
+  {
+    id: 'notif-1',
+    userId: 'demo-1',
+    type: 'booking_confirmed',
+    title: 'Therapy Session Confirmed',
+    message: 'Your session with Dr. Sarah Chen has been confirmed for tomorrow at 2:00 PM.',
+    actionUrl: '/therapy',
+    read: false,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+  },
+  {
+    id: 'notif-2',
+    userId: 'demo-1',
+    type: 'group_message',
+    title: 'New message in Coping with Anxiety group',
+    message: 'Someone replied to your message in the group session.',
+    actionUrl: '/group-sessions/session-1',
+    read: true,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
+  },
+]
+
+export const demoJournals = [
+  {
+    id: 'journal-1',
+    userId: 'demo-1',
+    title: 'Today\'s Reflection',
+    content: 'Had a good day today. Managed to complete the anxiety assessment and felt more aware of my triggers. Looking forward to the group session.',
+    mood: 'positive',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+  },
+  {
+    id: 'journal-2',
+    userId: 'demo-1',
+    title: 'Struggling with Sleep',
+    content: 'Sleep has been challenging lately. Going to try some of the wellness tips from the platform.',
+    mood: 'neutral',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+  },
+]
+
+export const demoEducationContent = [
+  {
+    id: 'content-1',
+    title: 'Understanding Anxiety: A Beginner\'s Guide',
+    slug: 'understanding-anxiety',
+    category: 'anxiety',
+    description: 'Learn what anxiety is, how it affects your body and mind, and why it\'s a normal human experience.',
+    contentType: 'article',
+    difficulty: 'beginner',
+    duration: 5,
+    tags: ['anxiety', 'mental-health', 'education'],
+    featured: true,
+    viewCount: 245,
+    author: 'Mental Health Team',
+    content: '<p>Anxiety is a natural response to stress...</p>',
+  },
+  {
+    id: 'content-2',
+    title: 'Depression: Breaking the Stigma',
+    slug: 'depression-breaking-stigma',
+    category: 'depression',
+    description: 'Explore depression, its symptoms, and learn why seeking help is a sign of strength.',
+    contentType: 'article',
+    difficulty: 'beginner',
+    duration: 6,
+    tags: ['depression', 'mental-health', 'stigma'],
+    featured: true,
+    viewCount: 189,
+    author: 'Mental Health Team',
+    content: '<p>Depression affects millions worldwide...</p>',
+  },
+  {
+    id: 'content-3',
+    title: 'Cognitive Behavioral Therapy Basics',
+    slug: 'cbt-basics',
+    category: 'coping-skills',
+    description: 'Introduction to CBT techniques you can use daily to manage negative thoughts.',
+    contentType: 'article',
+    difficulty: 'intermediate',
+    duration: 8,
+    tags: ['coping', 'therapy', 'mental-health'],
+    featured: false,
+    viewCount: 156,
+    author: 'Dr. Sarah Chen',
+    content: '<p>CBT is a powerful technique...</p>',
+  },
+  {
+    id: 'content-4',
+    title: 'Sleep Hygiene: Your Guide to Better Rest',
+    slug: 'sleep-hygiene-guide',
+    category: 'sleep',
+    description: 'Practical steps to improve sleep quality and establish healthy sleep habits.',
+    contentType: 'article',
+    difficulty: 'beginner',
+    duration: 7,
+    tags: ['sleep', 'wellness', 'lifestyle'],
+    featured: true,
+    viewCount: 312,
+    author: 'Wellness Expert',
+    content: '<p>Good sleep is essential...</p>',
+  },
+  {
+    id: 'content-5',
+    title: 'Stress Management Techniques That Work',
+    slug: 'stress-management-techniques',
+    category: 'stress',
+    description: 'Learn evidence-based strategies to manage and reduce daily stress.',
+    contentType: 'article',
+    difficulty: 'intermediate',
+    duration: 9,
+    tags: ['stress', 'coping', 'wellness'],
+    featured: false,
+    viewCount: 198,
+    author: 'Mental Health Team',
+    content: '<p>Stress is inevitable...</p>',
+  },
+  {
+    id: 'content-6',
+    title: 'Building Healthy Relationships',
+    slug: 'healthy-relationships',
+    category: 'relationships',
+    description: 'Tips for improving communication and connection with those around you.',
+    contentType: 'article',
+    difficulty: 'intermediate',
+    duration: 6,
+    tags: ['relationships', 'communication', 'social'],
+    featured: false,
+    viewCount: 134,
+    author: 'Relationship Coach',
+    content: '<p>Healthy relationships are built on...</p>',
+  },
+]
+
+export const demoReferrals = [
+  {
+    id: 'ref-1',
+    name: 'City Mental Health Clinic',
+    description: 'Comprehensive mental health services for all ages',
+    category: 'clinic',
+    specialties: JSON.stringify(['depression', 'anxiety', 'trauma']),
+    location: 'Downtown',
+    phone: '+1 (555) 234-5678',
+    website: 'www.citymentalhealthclinic.com',
+    rating: 4.8,
+    verified: true,
+  },
+  {
+    id: 'ref-2',
+    name: 'Dr. James Wilson - Psychiatrist',
+    description: 'Private psychiatrist specializing in medication management',
+    category: 'professional',
+    specialties: JSON.stringify(['medication', 'psychiatry']),
+    location: 'Medical Plaza',
+    phone: '+1 (555) 345-6789',
+    website: 'www.drjameswilson.com',
+    rating: 4.9,
+    verified: true,
+  },
+  {
+    id: 'ref-3',
+    name: 'Community Support Groups',
+    description: 'Free support groups for various mental health conditions',
+    category: 'support-group',
+    specialties: JSON.stringify(['peer-support', 'anxiety', 'depression']),
+    location: 'Community Center',
+    phone: '+1 (555) 456-7890',
+    website: 'www.communitysupport.com',
+    rating: 4.6,
+    verified: true,
+  },
+]
+
+export const demoAISessions = [
+  {
+    id: 'ai-1',
+    userId: 'demo-1',
+    title: 'Anxiety Chat',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+  },
+]
+
+export default {
+  users: demoUsers,
+  assessments: demoAssessments,
+  assessmentResponses: demoAssessmentResponses,
+  sessions: demoGroupSessions,
+  participants: demoGroupParticipants,
+  groupMessages: demoGroupMessages,
+  therapists: demoTherapists,
+  therapistProfiles: demoTherapistProfiles,
+  therapyBookings: demoTherapyBookings,
+  notifications: demoNotifications,
+  journals: demoJournals,
+  educationContent: demoEducationContent,
+  referrals: demoReferrals,
+  aiSessions: demoAISessions,
+}

@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9bf8d81ce6e64a2de8ea26d8c70de4551436131dc8bb96f854c33a5e10d74b60
-size 463
+import { getServerSessionOrDemo as getServerSession } from '@/lib/auth'
+import { AppNav } from '@/components/app-nav'
+
+export default async function AssessmentsLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  // No auth required in demo mode; keep AppNav and render children
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-warmBeige via-lightTeal/10 to-softBlue/10">
+      <AppNav />
+      <main>{children}</main>
+    </div>
+  )
+}

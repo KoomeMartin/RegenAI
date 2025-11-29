@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:528daae279583fc483765f6a6d082bde74050956ad8522d5859821bf7f323942
-size 672
+import { NextResponse } from 'next/server'
+import { getServerSessionOrDemo as getServerSession } from '@/lib/auth'
+import { authOptions } from '@/lib/auth'
+import { prisma } from '@/lib/db'
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ count: 0 })
+    }
+
+    const count = await prisma.notification.count({
+      where: {
+        userId: session.user.id,
+        read: false,
+      },
+    })
+
+    return NextResponse.json({ count })
+  } catch (error) {
+    console.error('Error fetching unread count:', error)
+    return NextResponse.json({ count: 0 })
+  }
+}

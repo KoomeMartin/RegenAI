@@ -1,3 +1,319 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:43449c1f6815e7193302834a42c6a7fa0d0921ad7025ef154e750632ca69290e
-size 10898
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  alias         String    @unique
+  avatar        String
+  role          String    @default("user") // 'user', 'therapist', 'admin'
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  aiSessions    AISession[]
+  groupMessages GroupMessage[]
+  assessmentResponses AssessmentResponse[]
+  journals      Journal[]
+  favorites     UserFavorite[]
+  groupSessionParticipants GroupSessionParticipant[]
+  therapistProfile TherapistProfile?
+  therapyBookingsAsTherapist TherapyBooking[] @relation("TherapistBookings")
+  therapyBookingsAsClient TherapyBooking[] @relation("ClientBookings")
+  notifications Notification[]
+  referralTracking ReferralTracking[]
+  educationProgress EducationProgress[]
+  educationBookmarks EducationBookmark[]
+}
+
+model AISession {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String?
+  summary     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  messages    Message[]
+  
+  @@index([userId])
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  sessionId   String
+  session     AISession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role        String    // 'user' or 'assistant'
+  content     String    @db.Text
+  hasCrisisFlag Boolean @default(false)
+  createdAt   DateTime  @default(now())
+  
+  @@index([sessionId])
+}
+
+model GroupSession {
+  id          String    @id @default(cuid())
+  title       String
+  description String?   @db.Text
+  topic       String    // 'anxiety', 'depression', 'trauma', etc.
+  scheduledAt DateTime
+  duration    Int       // duration in minutes
+  maxCapacity Int       @default(10)
+  status      String    @default("scheduled") // 'scheduled', 'active', 'completed'
+  guidelines  String?   @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  messages    GroupMessage[]
+  participants GroupSessionParticipant[]
+  
+  @@index([scheduledAt, status])
+}
+
+model GroupSessionParticipant {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupSessionId  String
+  groupSession    GroupSession @relation(fields: [groupSessionId], references: [id], onDelete: Cascade)
+  joinedAt        DateTime     @default(now())
+  
+  @@unique([userId, groupSessionId])
+  @@index([groupSessionId])
+}
+
+model GroupMessage {
+  id              String       @id @default(cuid())
+  groupSessionId  String
+  groupSession    GroupSession @relation(fields: [groupSessionId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content         String       @db.Text
+  isFlagged       Boolean      @default(false) // AI moderation flag
+  createdAt       DateTime     @default(now())
+  
+  @@index([groupSessionId])
+  @@index([userId])
+}
+
+model Assessment {
+  id          String    @id @default(cuid())
+  type        String    // 'PHQ9', 'GAD7', 'MOOD_CHECKIN'
+  title       String
+  description String?   @db.Text
+  questions   Json      // Array of question objects
+  createdAt   DateTime  @default(now())
+  
+  responses   AssessmentResponse[]
+  
+  @@index([type])
+}
+
+model AssessmentResponse {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessmentId  String
+  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  answers       Json       // Array of answers
+  score         Int?       // Calculated score
+  severity      String?    // 'minimal', 'mild', 'moderate', 'severe'
+  notes         String?    @db.Text
+  createdAt     DateTime   @default(now())
+  
+  @@index([userId])
+  @@index([assessmentId])
+  @@index([createdAt])
+}
+
+model Referral {
+  id          String    @id @default(cuid())
+  name        String
+  type        String    // 'clinic', 'psychologist', 'psychiatrist', 'counselor'
+  country     String
+  city        String
+  address     String?
+  phone       String?
+  email       String?
+  website     String?
+  specialties Json      // Array of specialties
+  costRange   String    // 'free', 'low-cost', 'standard', 'premium'
+  languages   Json      // Array of languages
+  description String?   @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  favorites   UserFavorite[]
+  tracking    ReferralTracking[]
+  
+  @@index([country, city])
+  @@index([type])
+  @@index([costRange])
+}
+
+model UserFavorite {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referralId  String
+  referral    Referral  @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  
+  @@unique([userId, referralId])
+  @@index([userId])
+}
+
+model Journal {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  content   String    @db.Text
+  mood      String?   // 'great', 'good', 'okay', 'low', 'struggling'
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model TherapistProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?   @db.Text
+  specialties     Json      // Array of specialties: ['anxiety', 'depression', 'trauma', etc.]
+  languages       Json      // Array of languages: ['English', 'Swahili', etc.]
+  qualifications  String?   @db.Text
+  verified        Boolean   @default(false)
+  availability    Json      // Weekly availability schedule
+  hourlyRate      Float?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([verified])
+}
+
+model TherapyBooking {
+  id            String    @id @default(cuid())
+  clientId      String
+  client        User      @relation("ClientBookings", fields: [clientId], references: [id], onDelete: Cascade)
+  therapistId   String
+  therapist     User      @relation("TherapistBookings", fields: [therapistId], references: [id], onDelete: Cascade)
+  sessionType   String    // 'chat', 'voice', 'video'
+  scheduledAt   DateTime
+  duration      Int       // in minutes
+  status        String    @default("scheduled") // 'scheduled', 'in-progress', 'completed', 'cancelled', 'no-show'
+  notes         String?   @db.Text  // Therapist notes (private)
+  clientNotes   String?   @db.Text  // Client notes before session
+  rating        Int?      // 1-5 stars
+  feedback      String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([clientId])
+  @@index([therapistId])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+model Notification {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String    // 'session_reminder', 'assessment_reminder', 'booking_confirmed', 'booking_cancelled', 'system'
+  title      String
+  message    String    @db.Text
+  read       Boolean   @default(false)
+  actionUrl  String?   // Link to relevant page
+  createdAt  DateTime  @default(now())
+  
+  @@index([userId, read])
+  @@index([createdAt])
+}
+
+model ReferralTracking {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referralId  String
+  referral    Referral  @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  status      String    @default("interested") // 'interested', 'contacted', 'scheduled', 'completed', 'not-helpful'
+  notes       String?   @db.Text
+  contactedAt DateTime?
+  scheduledAt DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@unique([userId, referralId])
+  @@index([userId])
+  @@index([referralId])
+  @@index([status])
+}
+
+model EducationContent {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  category    String    // 'anxiety', 'depression', 'stress', 'coping-skills', 'relationships', 'self-care', 'trauma', 'sleep'
+  description String?   @db.Text
+  content     String    @db.Text
+  contentType String    @default("article") // 'article', 'video', 'audio', 'exercise', 'infographic'
+  difficulty  String    @default("beginner") // 'beginner', 'intermediate', 'advanced'
+  duration    Int?      // estimated reading/viewing time in minutes
+  tags        Json      // Array of tags
+  thumbnail   String?   // URL or path to thumbnail image
+  videoUrl    String?   // For video content
+  audioUrl    String?   // For audio content
+  author      String?
+  published   Boolean   @default(true)
+  featured    Boolean   @default(false)
+  viewCount   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  progress    EducationProgress[]
+  bookmarks   EducationBookmark[]
+  
+  @@index([category])
+  @@index([published, featured])
+}
+
+model EducationProgress {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId   String
+  content     EducationContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  progress    Int              @default(0) // 0-100 percentage
+  completed   Boolean          @default(false)
+  timeSpent   Int              @default(0) // in seconds
+  lastViewed  DateTime         @default(now())
+  createdAt   DateTime         @default(now())
+  
+  @@unique([userId, contentId])
+  @@index([userId])
+  @@index([contentId])
+}
+
+model EducationBookmark {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentId   String
+  content     EducationContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  notes       String?          @db.Text
+  createdAt   DateTime         @default(now())
+  
+  @@unique([userId, contentId])
+  @@index([userId])
+}

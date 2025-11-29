@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:75103611faea44959f02e657a2529c3886fa0e082264fb4e004055aca0f532f2
-size 705
+import { NextResponse } from 'next/server'
+import { getServerSessionOrDemo as getServerSession } from '@/lib/auth'
+import { authOptions } from '@/lib/auth'
+import { prisma } from '@/lib/db'
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const referrals = await prisma.referral.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+
+    return NextResponse.json({ referrals })
+  } catch (error) {
+    console.error('Error fetching referrals:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}

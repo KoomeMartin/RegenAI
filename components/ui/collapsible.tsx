@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd
-size 335
+'use client';
+
+import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
+
+const Collapsible = CollapsiblePrimitive.Root;
+
+const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;
+
+const CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;
+
+export { Collapsible, CollapsibleTrigger, CollapsibleContent };

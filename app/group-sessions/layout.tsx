@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f14f05933fbce5192ed2967538a7c6bbc40b0c05cd01a9c47a49c63a3e806f7
-size 586
+import { getServerSessionOrDemo as getServerSession } from '@/lib/auth'
+import { authOptions } from '@/lib/auth'
+import { redirect } from 'next/navigation'
+import { AppNav } from '@/components/app-nav'
+
+export default async function GroupSessionsLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const session = await getServerSession(authOptions)
+
+  if (!session) {
+    redirect('/auth/login')
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-warmBeige via-lightTeal/10 to-softBlue/10">
+      <AppNav />
+      <main>{children}</main>
+    </div>
+  )
+}
