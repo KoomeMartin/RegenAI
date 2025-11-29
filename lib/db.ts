@@ -18,6 +18,7 @@ function createMockPrisma() {
     const modelKey = typeof model === 'string' && model.length > 0
       ? model.charAt(0).toLowerCase() + model.slice(1)
       : model
+    const modelKeyLower = typeof modelKey === 'string' ? modelKey.toLowerCase() : modelKey
     return {
       findMany: async (params?: any) => {
         const where = params?.where || {}
@@ -27,8 +28,8 @@ function createMockPrisma() {
 
         let result: any[] = []
 
-        if (modelKey === 'assessment') result = demo.assessments
-        else if (modelKey === 'assessmentResponse') {
+        if (modelKeyLower === 'assessment') result = demo.assessments
+        else if (modelKeyLower === 'assessmentresponse') {
           result = demo.assessmentResponses
           // Filter by userId if provided
           if (where.userId) {
@@ -38,7 +39,7 @@ function createMockPrisma() {
           if (where.assessment?.type?.in) {
             result = result.filter((r: any) => where.assessment.type.in.includes(r.assessment?.type))
           }
-        } else if (modelKey === 'groupSession') {
+        } else if (modelKeyLower === 'groupsession') {
           result = demo.sessions
           // Filter scheduled sessions in the future
           if (where.scheduledAt?.gte) {
@@ -47,39 +48,39 @@ function createMockPrisma() {
           if (where.status) {
             result = result.filter((s: any) => s.status === where.status)
           }
-        } else if (modelKey === 'groupSessionParticipant') {
+        } else if (modelKeyLower === 'groupsessionparticipant') {
           result = demo.participants
           if (where.userId) {
             result = result.filter((p: any) => p.userId === where.userId)
           }
-        } else if (modelKey === 'groupMessage') result = demo.groupMessages
-        else if (modelKey === 'user') {
+        } else if (modelKeyLower === 'groupmessage') result = demo.groupMessages
+        else if (modelKeyLower === 'user') {
           result = demo.users
           if (where.id) {
             result = result.filter((u: any) => u.id === where.id)
           }
-        } else if (modelKey === 'therapist') result = demo.therapists
-        else if (modelKey === 'therapistProfile') {
+        } else if (modelKeyLower === 'therapist') result = demo.therapists
+        else if (modelKeyLower === 'therapistprofile') {
           result = demo.therapistProfiles
           if (where.verified) {
             result = result.filter((t: any) => t.verified === where.verified)
           }
-        } else if (modelKey === 'therapyBooking') {
+        } else if (modelKeyLower === 'therapybooking') {
           result = demo.therapyBookings
           if (where.clientId) {
             result = result.filter((b: any) => b.clientId === where.clientId)
           }
-        } else if (modelKey === 'journal') {
+        } else if (modelKeyLower === 'journal') {
           result = demo.journals
           if (where.userId) {
             result = result.filter((j: any) => j.userId === where.userId)
           }
-        } else if (modelKey === 'notification') {
+        } else if (modelKeyLower === 'notification') {
           result = demo.notifications
           if (where.userId) {
             result = result.filter((n: any) => n.userId === where.userId)
           }
-        } else if (modelKey === 'educationContent' || modelKey === 'learningResource') {
+        } else if (modelKeyLower === 'educationcontent' || modelKeyLower === 'learningresource') {
           result = demo.educationContent
           if (where.category && where.category !== 'all') {
             result = result.filter((c: any) => c.category === where.category)
@@ -90,9 +91,9 @@ function createMockPrisma() {
           if (where.featured) {
             result = result.filter((c: any) => c.featured === where.featured)
           }
-        } else if (modelKey === 'referral' || modelKey === 'referralResource') {
+        } else if (modelKeyLower === 'referral' || modelKeyLower === 'referralresource') {
           result = demo.referrals
-        } else if (modelKey === 'aiSession') {
+        } else if (modelKeyLower === 'aisession') {
           result = demo.aiSessions
           if (where.userId) {
             result = result.filter((a: any) => a.userId === where.userId)
