@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/group-sessions/[id]/messages":{},"/api/ai-chat":{},"/ai-support":{},"/assessments":{},"/assessments/[id]/take":{},"/group-sessions/[id]/join":{},"/group-sessions/[id]":{},"/dashboard":{},"/group-sessions":{},"/profile":{}}}
+{"version":1,"functions":{"/api/group-sessions/[id]/messages":{},"/api/ai-chat":{},"/dashboard":{},"/assessments/[id]/take":{},"/ai-support":{},"/group-sessions/[id]/join":{},"/assessments":{},"/profile":{},"/group-sessions":{},"/group-sessions/[id]":{}}}
