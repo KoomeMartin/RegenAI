@@ -30,7 +30,19 @@ export default async function DashboardPage() {
       orderBy: { scheduledAt: 'asc' },
       take: 5,
     }),
-    prisma.aISession.count({}),
+    // Some environments (demo/mock) or Prisma client generations may not
+    // expose `aISession` in the same shape; guard to avoid calling `count`
+    // on undefined during SSR/runtime.
+    (async () => {
+      try {
+        if (prisma?.aISession && typeof prisma.aISession.count === 'function') {
+          return await prisma.aISession.count({})
+        }
+      } catch (e) {
+        // swallow and fallthrough to 0
+      }
+      return 0
+    })(),
   ])
 
   return (
