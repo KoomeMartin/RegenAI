@@ -1,0 +1,3 @@
+# Disable Git LFS for all files globally
+# (Ensure source files are always stored as real files, not LFS pointers)
+* !filter=lfs
