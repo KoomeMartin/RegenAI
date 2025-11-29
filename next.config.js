@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:81db92a202e96f14abf5dee2f349b5cf704b435452869b01ed3ab5d7de9c4600
-size 425
+const path = require('path');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+  output: process.env.NEXT_OUTPUT_MODE,
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, '../'),
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  images: { unoptimized: true },
+};
+
+module.exports = nextConfig;
