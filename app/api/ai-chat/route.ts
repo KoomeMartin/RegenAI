@@ -36,11 +36,14 @@ export async function POST(request: NextRequest) {
     // Detect crisis in user message
     const hasCrisis = detectCrisis(message)
 
+    // Get userId in a type-safe way to avoid depending on TS augmentation
+    const userId = (session as any)?.user?.id
+
     // Get or create AI session
     let aiSession: any
     if (sessionId) {
       aiSession = await prisma.aISession.findFirst({
-        where: { id: sessionId, userId: session.user.id },
+        where: { id: sessionId, userId },
         include: { messages: { orderBy: { createdAt: 'asc' } } },
       })
     }
@@ -48,7 +51,7 @@ export async function POST(request: NextRequest) {
     if (!aiSession) {
       aiSession = await prisma.aISession.create({
         data: {
-          userId: session.user.id,
+          userId,
           title: message.slice(0, 50) + '...',
         },
         include: { messages: true },
