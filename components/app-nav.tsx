@@ -80,9 +80,9 @@ export function AppNav() {
 
             {session?.user && (
               <div className="flex items-center gap-2">
-                <Avatar avatarId={session.user.avatar ?? 'avatar1'} size="sm" />
+                <Avatar avatarId={(session as any)?.user?.avatar ?? 'avatar1'} size="sm" />
                 <span className="text-sm font-medium text-gray-700 hidden md:block">
-                  {session.user.alias}
+                  {(session as any)?.user?.alias}
                 </span>
               </div>
             )}

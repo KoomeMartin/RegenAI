@@ -79,7 +79,7 @@ export default function TherapistDashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-darkTeal mb-2">Therapist Dashboard</h1>
-        <p className="text-gray-600">Welcome back, {session?.user?.alias}</p>
+        <p className="text-gray-600">Welcome back, {(session as any)?.user?.alias}</p>
       </div>
 
       {/* Stats Cards */}

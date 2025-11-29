@@ -17,11 +17,15 @@ export default async function GroupSessionChatPage({
     redirect('/auth/login')
   }
 
+  const userId = (session as any)?.user?.id
+  const userAlias = (session as any)?.user?.alias
+  const userAvatar = (session as any)?.user?.avatar
+
   // Check if user is a participant
   const participation = await prisma.groupSessionParticipant.findUnique({
     where: {
       userId_groupSessionId: {
-        userId: session.user.id,
+        userId,
         groupSessionId: params.id,
       },
     },
@@ -51,9 +55,9 @@ export default async function GroupSessionChatPage({
       <GroupChatInterface
         sessionId={params.id}
         session={groupSession}
-        userId={session.user.id}
-        userAlias={session.user.alias}
-        userAvatar={session.user.avatar}
+        userId={userId}
+        userAlias={userAlias}
+        userAvatar={userAvatar}
       />
     </div>
   )
