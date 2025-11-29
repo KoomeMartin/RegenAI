@@ -1,3 +1,47 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:556f399dc047f890b68762d8ae44d695c14b2b3eb3eb2b9ded13a3b1a4a4e8eb
-size 707
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": [
+      "dom",
+      {
+        "compilerOptions": {
+          "target": "es2020",
+          "lib": [
+            "dom",
+            "dom.iterable",
+            "es5",
+            "es2020"
+          ],
+          "allowJs": true,
+          "skipLibCheck": true,
+          "strict": true,
+          "noEmit": true,
+          "esModuleInterop": true,
+          "module": "esnext",
+          "moduleResolution": "bundler",
+          "resolveJsonModule": true,
+          "isolatedModules": true,
+          "jsx": "preserve",
+          "incremental": true,
+          "plugins": [
+            {
+              "name": "next"
+            }
+          ],
+          "paths": {
+            "@/*": [
+              "./*"
+            ]
+          }
+        },
+        "include": [
+          "next-env.d.ts",
+          "**/*.ts",
+          "**/*.tsx",
+          ".next/types/**/*.ts",
+          ".build/types/**/*.ts"
+        ],
+        "exclude": [
+          "node_modules"
+        ]
+      }
