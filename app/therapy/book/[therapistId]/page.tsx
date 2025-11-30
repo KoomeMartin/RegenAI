@@ -143,7 +143,7 @@ export default function BookTherapyPage() {
               <Avatar avatarId={therapist.user.avatar} size="lg" />
             </div>
             <h2 className="text-xl font-bold text-darkTeal">{therapist.user.alias}</h2>
-            <p className="text-lg text-teal font-semibold mt-1">${therapist.hourlyRate}/session</p>
+            <p className="text-lg text-teal font-semibold mt-1">₦{therapist.hourlyRate}/session</p>
           </div>
 
           <div className="space-y-3 text-sm">
@@ -250,7 +250,7 @@ export default function BookTherapyPage() {
               <h3 className="font-medium text-darkTeal mb-2">Session Details</h3>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Duration: 50 minutes</li>
-                <li>• Cost: ${therapist.hourlyRate} per session</li>
+                <li>• Cost: ₦{therapist.hourlyRate} per session</li>
                 <li>• You can cancel up to 24 hours before the session</li>
               </ul>
             </div>

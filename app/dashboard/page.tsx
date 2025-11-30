@@ -63,6 +63,7 @@ export default async function DashboardPage() {
             <h3 className="font-semibold text-red-800">In Crisis?</h3>
             <p className="text-sm text-red-700">
               If you're experiencing a mental health emergency, please call your local crisis helpline immediately.
+              <strong className="bg-red-100 text-red-700 px-2 py-0.5 rounded"> 0800-123-4567</strong>
             </p>
           </div>
         </div>

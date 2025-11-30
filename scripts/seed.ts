@@ -51,7 +51,7 @@ async function main() {
         thursday: ['09:00-12:00', '14:00-17:00'],
         friday: ['09:00-12:00', '14:00-16:00'],
       },
-      hourlyRate: 2.0,
+      hourlyRate: 25.0,
     },
   })
   console.log('Therapist 1 created:', therapist1.alias)
@@ -86,7 +86,7 @@ async function main() {
         thursday: ['10:00-13:00'],
         friday: ['10:00-13:00', '15:00-17:00'],
       },
-      hourlyRate: 3.0,
+      hourlyRate: 30.0,
     },
   })
   console.log('Therapist 2 created:', therapist2.alias)
@@ -121,7 +121,7 @@ async function main() {
         thursday: ['08:00-12:00', '13:00-16:00'],
         friday: ['08:00-12:00', '13:00-15:00'],
       },
-      hourlyRate: 2.0,
+      hourlyRate: 28.0,
     },
   })
   console.log('Therapist 3 created:', therapist3.alias)

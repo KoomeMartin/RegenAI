@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icon: Heart },
   { href: '/ai-support', label: 'TalkSafe', icon: MessageCircle },
-  { href: '/group-sessions', label: 'Group Sessions', icon: Users },
+  { href: '/group-sessions', label: 'Circle', icon: Users },
   { href: '/therapy', label: 'Therapy', icon: Video },
   { href: '/learn', label: 'Learn', icon: BookOpen },
   { href: '/assessments', label: 'Assessments', icon: ClipboardList },

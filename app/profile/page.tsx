@@ -50,7 +50,7 @@ export default async function ProfilePage() {
             <div className="flex flex-col items-center mb-6">
               <Avatar avatarId={user.avatar} size="lg" />
               <h2 className="text-2xl font-bold text-darkTeal mt-4">{user.alias}</h2>
-              <p className="text-sm text-gray-600">Anonymous Profile</p>
+              <p className="text-sm text-gray-600">Profile</p>
             </div>
 
             <div className="space-y-4">

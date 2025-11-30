@@ -147,7 +147,7 @@ export default function TherapyPage() {
                     </div>
                     <div>
                       <p className="text-xs font-medium text-gray-500">Rate</p>
-                      <p className="text-lg font-bold text-teal">${therapist.hourlyRate}/session</p>
+                      <p className="text-lg font-bold text-teal">₦{therapist.hourlyRate}/session</p>
                     </div>
                   </div>
 
