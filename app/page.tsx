@@ -76,7 +76,7 @@ export default function LandingPage() {
             href="/dashboard"
             className="inline-flex items-center gap-2 px-8 py-4 bg-teal text-white text-lg rounded-lg hover:bg-darkTeal transition-all shadow-lg hover:shadow-xl"
           >
-            Get Started - No Sign Up
+            Get Started - Sign Up
           </Link>
         </div>
       </section>

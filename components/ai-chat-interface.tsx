@@ -214,14 +214,14 @@ export function AIChatInterface({
               <div className="text-center py-12">
                 <MessageCircle className="h-16 w-16 text-teal mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-darkTeal mb-2">
-                  Welcome to AI Support
+                  Welcome. This is your safe space 🧘.
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  Share what's on your mind, and I'll provide supportive guidance
+                  Share what's on your mind, I’m here to listen and support you 💬.
                 </p>
                 <div className="bg-lightTeal/30 rounded-lg p-4 max-w-md mx-auto">
                   <p className="text-sm text-gray-700">
-                    This is a safe space. Everything you share is confidential and stored securely.
+                    You’re not alone here. Let’s take this one step at a time.
                   </p>
                 </div>
               </div>
