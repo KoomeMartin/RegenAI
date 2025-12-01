@@ -74,7 +74,7 @@ export default async function DashboardPage() {
         <QuickAccessCard
           href="/ai-support"
           icon={<MessageCircle className="h-8 w-8 text-teal" />}
-          title="Chat with AI"
+          title="TalkSafe"
           description="Get immediate emotional support"
           bgColor="bg-teal/10"
         />
