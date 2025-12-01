@@ -75,9 +75,9 @@
       async jwt({ token, user }) {
         if (user) {
           token.id = user.id
-          // token.alias = user.alias
-          // token.avatar = user.avatar
-          // token.role = user.role
+          token.alias = user.alias
+          token.avatar = user.avatar
+          token.role = user.role
         }
         return token
       },
@@ -85,9 +85,9 @@
       async session({ session, token }) {
         if (session.user) {
           session.user.id = token.id
-          // session.user.alias = token.alias
-          // session.user.avatar = token.avatar
-          // session.user.role = token.role
+          session.user.alias = token.alias
+          session.user.avatar = token.avatar
+          session.user.role = token.role
         }
         return session
       },

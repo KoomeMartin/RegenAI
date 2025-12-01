@@ -1,3 +1,64 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2d552441a62d3188eec91d1f452748b4dba31fa47145f15e78f35fc09f8a8fe0
-size 430
+import "next-auth";
+import "next-auth/jwt";
+
+declare module 'next-auth' {
+  interface User {
+    id: string
+    email: string
+    alias: string
+    avatar: string
+    role: string
+  }
+
+  interface Session {
+    user: {
+      id: string
+      email: string
+      alias: string
+      avatar: string
+      role: string
+    }
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string
+    alias: string
+    avatar: string
+    role: string
+  }
+}
+
+
+// import "next-auth";
+// import "next-auth/jwt";
+
+// declare module "next-auth" {
+//   interface User {
+//     id: string;
+//     email: string;
+//     alias: string;
+//     avatar: string;
+//     role: string;
+//   }
+
+//   interface Session {
+//     user: {
+//       id: string;
+//       email: string;
+//       alias: string;
+//       avatar: string;
+//       role: string;
+//     };
+//   }
+// }
+
+// declare module "next-auth/jwt" {
+//   interface JWT {
+//     id: string;
+//     alias: string;
+//     avatar: string;
+//     role: string;
+//   }
+// }
